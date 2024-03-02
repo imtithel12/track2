@@ -10,7 +10,7 @@ exports.postRegister = async (req, res) => {
     const { name, email, password, password_confirm } = req.body;
     // console.log('Received data from the form:', { name, email, password, password_confirm });
 
-    db.query('SELECT email FROM user WHERE email = ?', [email], async (error, result) => {
+    db.query('SELECT email FROM users WHERE email = ?', [email], async (error, result) => {
         if (error) {
             console.log(error);
         }
@@ -28,13 +28,13 @@ exports.postRegister = async (req, res) => {
 
         let hashedPassword = await bcrypt.hash(password, 8);
 
-        db.query('INSERT INTO user SET ?', { name: name, email: email, password: hashedPassword }, (err, result) => {
+        db.query('INSERT INTO users SET ?', { name: name, email: email, password: hashedPassword }, (err, result) => {
             if (err) {
                 console.log(err);
             } else {
-                //console.log('User registered successfully!');
+                //console.log('Users registered successfully!');
                 return res.render('register', {
-                    message: 'User registered!'
+                    message: 'Users registered!'
                 });
             }
         });
@@ -49,7 +49,7 @@ exports.getLogin = (req, res) => {
 exports.postLogin = async (req, res) => {
     const { email, password } = req.body;
 
-    db.query('SELECT * FROM user WHERE email = ?', [email], async (error, result) => {
+    db.query('SELECT * FROM users WHERE email = ?', [email], async (error, result) => {
         if (error) {
             console.log(error);
         }
