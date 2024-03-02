@@ -1,8 +1,5 @@
 // models/userModel.js
-const db = require('../config/database'); // Adjust the path accordingly
-
-
-
+const db = require('../config/database'); // Adjust the path accordingl
 const YourModel = {
   getAll: (callback) => {
     db.query('SELECT * FROM users', (err, results) => {
