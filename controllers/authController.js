@@ -1,7 +1,8 @@
 // app/controllers/authController.js
 const bcrypt = require('bcryptjs');
 const db = require('../config/database');
-
+//const listetab = require('../config/database');
+const YourModel = require('../models/userModel');
 exports.getRegister = (req, res) => {
     res.render('register');
 };
@@ -90,5 +91,35 @@ exports.logout = (req, res) => {
 exports.getDashboard = (req, res) => {
     res.render('dashboard');
 };
+
+exports.table = (req, res) => {
+    try {
+      // Fetch all rows from the 'listetab' table
+      const query = 'SELECT * FROM users';
+  
+      db.query(query, (err, results) => {
+        if (err) {
+          console.error('Error executing MySQL query:', err);
+          return res.status(500).json({
+            success: false,
+            message: 'Erreur interne du serveur.',
+          });
+        }
+  
+        // Render a view or send the JSON response, depending on your requirements
+        // For JSON response:
+        return res.status(200).json({ success: true, liste: results });
+  
+        // For rendering a view (e.g., using a template engine like EJS or Handlebars):
+        // return res.render('yourView', { success: true, liste: results });
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({
+        success: false,
+        message: 'Erreur interne du serveur.',
+      });
+    }
+  };
 
 module.exports = exports;
